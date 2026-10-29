@@ -553,7 +553,7 @@
 
           html += `
             <button data-nome="${bod.toLowerCase()}" onclick="abrirVinhosBodega('${bod}')" class="btn-bodega bg-white border border-gray-200 rounded-sm aspect-square flex flex-col items-center justify-center p-3 hover:border-bordo transition-colors shadow-sm relative overflow-hidden group">
-                <img src="logos/${nomeArquivo}.png" alt="${bod}" class="w-full h-full object-contain mix-blend-multiply" 
+                <img src="${nomeArquivo}.png" alt="${bod}" class="w-full h-full object-contain mix-blend-multiply" 
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
                 <span style="display:none;" class="font-serif text-[11px] md:text-sm font-bold text-escuro text-center group-hover:text-bordo transition-colors leading-tight">
                     ${bod}
