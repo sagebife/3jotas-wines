@@ -228,7 +228,7 @@
     </div>
 
     <!-- TELA 4: LOJA -->
-    <div id="view-loja" class="hidden pb-40 relative bg-marfim min-h-screen">
+    <div id="view-loja" class="hidden pb-72 relative bg-marfim min-h-screen">
       <div
         class="sticky top-0 z-40 w-full bg-marfim/95 backdrop-blur-sm border-b border-gray-200/60 shadow-sm pt-4 md:pt-6 pb-4"
       >
@@ -314,21 +314,22 @@
           <h2
             class="text-sm font-semibold uppercase tracking-[0.2em] text-escuro"
           >
-            Nossos Combos
+            Nossos Combos Exclusivos
           </h2>
           <div class="h-px bg-gray-300 flex-1"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Combo 1: Ícones de Luján -->
           <div
             class="bg-white border border-gray-200/60 rounded-sm p-6 flex flex-col shadow-sm relative overflow-hidden group"
           >
             <div
               class="absolute top-0 right-0 bg-dourado text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-bl-sm"
             >
-              Experiência Catena
+              Caixa (6 un.)
             </div>
-            <h3 class="font-serif text-2xl font-bold text-escuro mb-2">
+            <h3 class="font-serif text-xl font-bold text-escuro mb-2">
               Ícones de Luján
             </h3>
             <p class="text-xs text-gray-500 font-light mb-4">
@@ -336,18 +337,20 @@
               Bodega Catena Zapata.
             </p>
             <ul class="text-xs text-gray-600 space-y-2 mb-6 font-medium">
-              <li>• 3x DV Malbec-Malbec</li>
-              <li>• 3x DV Cabernet-Malbec</li>
+              <li>• 3x DV Catena Malbec-Malbec</li>
+              <li>• 3x DV Catena Cabernet-Malbec</li>
             </ul>
-            <div class="mt-auto flex justify-between items-end">
+            <div
+              class="mt-auto flex justify-between items-end pt-4 border-t border-gray-100"
+            >
               <div>
                 <p
                   class="text-[10px] text-gray-400 uppercase tracking-widest mb-1"
                 >
-                  Caixa (6 un.)
+                  Caixa Fechada
                 </p>
                 <p
-                  class="font-sans font-medium text-escuro text-xl price-tag"
+                  class="font-sans font-medium text-escuro text-lg price-tag"
                   data-brl="390.00"
                   data-ars="105000.00"
                 >
@@ -355,7 +358,99 @@
                 </p>
               </div>
               <button
-                onclick="updateQty('combo_catena', 6)"
+                onclick="updateQty('combo_lujan', 6)"
+                class="bg-escuro text-marfim px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-bordo transition-colors cursor-pointer"
+              >
+                Adicionar
+              </button>
+            </div>
+          </div>
+
+          <!-- Combo 2: Seleção Terroir & Elegância -->
+          <div
+            class="bg-white border border-gray-200/60 rounded-sm p-6 flex flex-col shadow-sm relative overflow-hidden group"
+          >
+            <div
+              class="absolute top-0 right-0 bg-bordo text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-bl-sm"
+            >
+              Caixa (6 un.)
+            </div>
+            <h3 class="font-serif text-xl font-bold text-escuro mb-2">
+              Terroir & Elegância
+            </h3>
+            <p class="text-xs text-gray-500 font-light mb-4">
+              Equilíbrio perfeito entre a fruta marcante e as especiarias finas.
+            </p>
+            <ul class="text-xs text-gray-600 space-y-2 mb-6 font-medium">
+              <li>• 3x Achaval Ferrer Malbec</li>
+              <li>• 3x Achaval Ferrer Cabernet Franc</li>
+            </ul>
+            <div
+              class="mt-auto flex justify-between items-end pt-4 border-t border-gray-100"
+            >
+              <div>
+                <p
+                  class="text-[10px] text-gray-400 uppercase tracking-widest mb-1"
+                >
+                  Caixa Fechada
+                </p>
+                <p
+                  class="font-sans font-medium text-escuro text-lg price-tag"
+                  data-brl="480.00"
+                  data-ars="130000.00"
+                >
+                  R$ 480,00
+                </p>
+              </div>
+              <button
+                onclick="updateQty('combo_terroir', 6)"
+                class="bg-escuro text-marfim px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-bordo transition-colors cursor-pointer"
+              >
+                Adicionar
+              </button>
+            </div>
+          </div>
+
+          <!-- Combo 3: Adega Completa 3J's -->
+          <div
+            class="bg-white border border-gray-200/60 rounded-sm p-6 flex flex-col shadow-sm relative overflow-hidden group"
+          >
+            <div
+              class="absolute top-0 right-0 bg-dourado text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-bl-sm"
+            >
+              Caixa (6 un.)
+            </div>
+            <h3 class="font-serif text-xl font-bold text-escuro mb-2">
+              Adega Completa 3J's
+            </h3>
+            <p class="text-xs text-gray-500 font-light mb-4">
+              Uma seleção diversificada reunindo os maiores clássicos de
+              Mendoza.
+            </p>
+            <ul class="text-xs text-gray-600 space-y-2 mb-6 font-medium">
+              <li>• 2x Rutini Malbec</li>
+              <li>• 2x Atamisque Malbec</li>
+              <li>• 2x Alma Negra Blend</li>
+            </ul>
+            <div
+              class="mt-auto flex justify-between items-end pt-4 border-t border-gray-100"
+            >
+              <div>
+                <p
+                  class="text-[10px] text-gray-400 uppercase tracking-widest mb-1"
+                >
+                  Caixa Fechada
+                </p>
+                <p
+                  class="font-sans font-medium text-escuro text-lg price-tag"
+                  data-brl="420.00"
+                  data-ars="115000.00"
+                >
+                  R$ 420,00
+                </p>
+              </div>
+              <button
+                onclick="updateQty('combo_completo', 6)"
                 class="bg-escuro text-marfim px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-bordo transition-colors cursor-pointer"
               >
                 Adicionar
@@ -371,7 +466,16 @@
       id="cart-bar"
       class="hidden fixed bottom-0 left-0 right-0 p-5 glass-dark text-marfim transform translate-y-full transition-transform duration-500 z-50 shadow-2xl border-t border-gray-700"
     >
-      <div class="max-w-5xl mx-auto">
+      <div class="max-w-5xl mx-auto relative">
+        <!-- Botão para fechar / esvaziar o carrinho -->
+        <button
+          onclick="esvaziarCarrinho()"
+          class="absolute -top-3 right-0 text-gray-400 hover:text-white text-xs uppercase tracking-widest flex items-center gap-1 cursor-pointer bg-escuro/80 px-2 py-1 rounded border border-gray-600"
+          title="Esvaziar carrinho"
+        >
+          <span>&times; Limpar</span>
+        </button>
+
         <div
           class="mb-4 pb-4 border-b border-gray-700/50 flex items-start gap-3"
         >
@@ -1002,6 +1106,23 @@
             card.style.display = "none";
           }
         });
+      }
+      function esvaziarCarrinho() {
+        // Zera o estado do carrinho e o contador global
+        cartState = {};
+        totalGarrafas = 0;
+
+        // Limpa visualmente os inputs de quantidade na tela de vinhos ativa
+        document.querySelectorAll("[id^='qty-']").forEach((el) => {
+          el.innerText = "0";
+        });
+
+        // Desmarca a proteção de voo se estiver ativa
+        const protVoo = document.getElementById("prot-voo");
+        if (protVoo) protVoo.checked = false;
+
+        // Atualiza a barra (o que fará com que ela se esconda automaticamente)
+        updateCartBar();
       }
     </script>
   </body>
