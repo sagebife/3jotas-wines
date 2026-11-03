@@ -695,19 +695,24 @@
 
         let html = "";
         bodegas.forEach((bod) => {
-          // Normalização blindada para evitar erros de hífens múltiplos ou espaços
-          const nomeArquivo = bod
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .trim()
-            .replace(/[^a-z0-9]/g, "-")
-            .replace(/-+/g, "-");
+          // Mapeamento direto e seguro para evitar qualquer erro de conversão
+          let nomeArquivo = "";
+          if (bod.toUpperCase().includes("ACHAVAL")) {
+            nomeArquivo = "achaval-ferrer";
+          } else {
+            nomeArquivo = bod
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .trim()
+              .replace(/[^a-z0-9]/g, "-")
+              .replace(/-+/g, "-");
+          }
 
           html += `
             <button data-nome="${bod.toLowerCase()}" onclick="abrirVinhosBodega('${bod}')" class="btn-bodega bg-white border border-gray-200 rounded-sm aspect-square flex flex-col items-center justify-center p-3 hover:border-bordo transition-colors shadow-sm relative overflow-hidden group cursor-pointer">
                 <img src="logos/${nomeArquivo}.png" alt="${bod}" class="w-full h-full object-contain mix-blend-multiply" 
-                    onerror="console.error('Erro ao carregar logo para: ${bod} (Procurou por: logos/${nomeArquivo}.png)'); this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
                 <span style="display:none;" class="font-serif text-[11px] md:text-sm font-bold text-escuro text-center group-hover:text-bordo transition-colors leading-tight">
                     ${bod}
                 </span>
