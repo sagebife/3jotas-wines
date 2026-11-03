@@ -514,17 +514,23 @@
             ></p>
           </div>
 
-          <!-- Lado direito: Logo do Pix + Botão de Finalizar -->
+          <!-- Lado direito: Bloco do Pix empilhado em 3 linhas -->
           <div class="flex items-center gap-3">
-            <div class="hidden sm:flex flex-col items-end">
+            <div
+              class="flex flex-col items-center sm:items-end text-center sm:text-right leading-tight"
+            >
               <span
-                class="text-[10px] text-gray-400 uppercase tracking-widest mb-0.5"
-                >Pagamento facilitado</span
+                class="text-[12px] text-gray-400 font-semibold uppercase tracking-widest"
+                >PAGAMENTO</span
+              >
+              <span
+                class="text-[12px] text-gray-400 font-semibold uppercase tracking-widest my-0.5"
+                >SOMENTE</span
               >
               <img
                 src="logos/pix.png"
                 alt="Logo Pix"
-                class="h-6 object-contain filter brightness-0 invert opacity-90"
+                class="h-6 md:h-8 object-contain bg-white/10 p-0.5 rounded-sm mt-0.5"
               />
             </div>
 
@@ -532,7 +538,7 @@
               id="btn-checkout"
               onclick="enviarWhatsApp()"
               disabled
-              class="bg-bordo text-marfim px-6 py-3 rounded-sm font-semibold text-sm tracking-wide transition-all flex items-center gap-2 opacity-50 cursor-not-allowed border border-bordo/50"
+              class="bg-bordo text-marfim px-6 py-3.5 rounded-sm font-semibold text-sm tracking-wide transition-all flex items-center gap-2 opacity-50 cursor-not-allowed border border-bordo/50"
             >
               Finalizar
             </button>
@@ -689,12 +695,29 @@
             id="detalhe-preco"
             class="font-sans font-medium text-escuro text-xl price-tag"
           ></p>
-          <button
-            id="detalhe-btn-add"
-            class="bg-escuro text-marfim px-6 py-2.5 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-bordo transition-colors cursor-pointer"
+
+          <!-- Seletor de Quantidade Direto no Pop-up -->
+          <div
+            class="flex items-center gap-4 bg-cinza/40 px-4 py-2 rounded-sm border border-gray-200"
           >
-            Adicionar à Seleção
-          </button>
+            <button
+              onclick="mudarQtdDetalhe(-1)"
+              class="text-gray-500 hover:text-bordo font-light text-xl transition-colors cursor-pointer px-1"
+            >
+              −
+            </button>
+            <span
+              id="detalhe-qty"
+              class="text-base font-semibold w-6 text-center text-escuro"
+              >0</span
+            >
+            <button
+              onclick="mudarQtdDetalhe(1)"
+              class="text-gray-500 hover:text-bordo font-light text-xl transition-colors cursor-pointer px-1"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1166,15 +1189,18 @@
         }
       }
 
+      let vinhoAtualId = null;
+
       function abrirDetalheVinho(id) {
         let vinho = catalogoVinhos.find((v) => v.id === id);
         if (!vinho) return;
+
+        vinhoAtualId = vinho.id;
 
         document.getElementById("detalhe-img").src = vinho.img;
         document.getElementById("detalhe-bodega").innerText = vinho.bodega;
         document.getElementById("detalhe-nome").innerText = vinho.nome;
 
-        // Calcula a harmonização exata usando a mesma lógica da listagem
         let nomeMaiusculo = vinho.nome.toUpperCase();
         let textoHarmonizacao = "";
 
@@ -1202,6 +1228,9 @@
           textoHarmonizacao = "🍤 Ótimo com peixes encorpados e molhos brancos";
         } else if (vinho.harmonizacao) {
           textoHarmonizacao = vinho.harmonizacao;
+        } else {
+          textoHarmonizacao =
+            "Seleção especial de Mendoza ideal para harmonizar com momentos inesquecíveis.";
         }
 
         document.getElementById("detalhe-harmonizacao").innerText =
@@ -1213,22 +1242,34 @@
         );
         document.getElementById("detalhe-preco").innerText = precoFormatado;
 
-        const btnAdd = document.getElementById("detalhe-btn-add");
-        btnAdd.onclick = function () {
-          updateQty(vinho.id, 1);
-          fecharDetalheVinho();
-        };
+        // Atualiza o contador de quantidade no pop-up com base no estado atual do carrinho
+        let qtdAtual = cartState[vinho.id] || 0;
+        document.getElementById("detalhe-qty").innerText = qtdAtual;
 
         const modal = document.getElementById("view-detalhe-vinho");
         modal.classList.remove("hidden");
         modal.classList.add("flex");
       }
-      function fecharDetalheVinho() {
-        const modal = document.getElementById("view-detalhe-vinho");
-        modal.classList.remove("flex");
-        modal.classList.add("hidden");
+
+      function mudarQtdDetalhe(change) {
+        if (!vinhoAtualId) return;
+
+        // Usa a sua função global updateQty para atualizar a quantidade e o carrinho
+        updateQty(vinhoAtualId, change);
+
+        // Atualiza o número exibido dentro do pop-up em tempo real
+        let qtdAtual = cartState[vinhoAtualId] || 0;
+        document.getElementById("detalhe-qty").innerText = qtdAtual;
       }
 
+      function fecharDetalheVinho() {
+        vinhoAtualId = null;
+        const modal = document.getElementById("view-detalhe-vinho");
+        if (modal) {
+          modal.classList.remove("flex");
+          modal.classList.add("hidden");
+        }
+      }
       function filtrarVinhosBodega() {
         const termo = document
           .getElementById("busca-vinhos")
@@ -1257,6 +1298,13 @@
         if (protVoo) protVoo.checked = false;
 
         updateCartBar();
+      }
+      function fecharDetalheVinho() {
+        const modal = document.getElementById("view-detalhe-vinho");
+        if (modal) {
+          modal.classList.remove("flex");
+          modal.classList.add("hidden");
+        }
       }
     </script>
   </body>
