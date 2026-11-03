@@ -514,11 +514,18 @@
             ></p>
           </div>
 
-         <!-- Lado direito: Logo do Pix + Botão de Finalizar -->
+          <!-- Lado direito: Logo do Pix + Botão de Finalizar -->
           <div class="flex items-center gap-3">
             <div class="hidden sm:flex flex-col items-end">
-              <span class="text-[10px] text-gray-400 uppercase tracking-widest mb-0.5">Pagamento facilitado</span>
-              <img src="logos/pix.png" alt="Logo Pix" class="h-6 object-contain filter brightness-0 invert opacity-90" />
+              <span
+                class="text-[10px] text-gray-400 uppercase tracking-widest mb-0.5"
+                >Pagamento facilitado</span
+              >
+              <img
+                src="logos/pix.png"
+                alt="Logo Pix"
+                class="h-6 object-contain filter brightness-0 invert opacity-90"
+              />
             </div>
 
             <button
@@ -531,11 +538,13 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
 
     <!-- TELA 5: GUIA DE HARMONIZAÇÃO (Pop-up) -->
     <div
       id="view-guia-harmonizacao"
-      class="hidden fixed inset-0 z-50 bg-marfim/95 backdrop-blur-md flex-col items-center justify-start pt-20 px-6 overflow-y-auto pb-20"
+      class="hidden fixed inset-0 z-50 bg-marfim/95 backdrop-blur-md flex-col items-center justify-start pt-20 px-6 overflow-y-auto pb-40"
     >
       <button
         onclick="fecharGuiaHarmonizacao()"
@@ -632,6 +641,63 @@
       </div>
     </div>
 
+    <!-- TELA DE DETALHE DO VINHO (Zoom / Tela Cheia) -->
+    <div
+      id="view-detalhe-vinho"
+      class="hidden fixed inset-0 z-50 bg-marfim/98 backdrop-blur-md flex-col items-center justify-center p-6 overflow-y-auto"
+    >
+      <div
+        class="max-w-md w-full bg-white border border-gray-200 rounded-sm p-6 flex flex-col items-center text-center shadow-lg relative my-auto"
+      >
+        <!-- Botão Fechar / Voltar interno -->
+        <button
+          onclick="fecharDetalheVinho()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-escuro font-bold text-xs uppercase tracking-widest cursor-pointer p-2"
+          title="Fechar"
+        >
+          &times; FECHAR
+        </button>
+
+        <div
+          class="w-40 h-64 md:w-48 md:h-72 mb-6 flex items-center justify-center mix-blend-multiply mt-2"
+        >
+          <img
+            id="detalhe-img"
+            src=""
+            alt="Vinho Detalhe"
+            class="w-full h-full object-contain"
+          />
+        </div>
+
+        <p
+          id="detalhe-bodega"
+          class="text-[10px] font-semibold text-dourado uppercase tracking-widest mb-1"
+        ></p>
+        <h3
+          id="detalhe-nome"
+          class="font-serif text-2xl font-bold text-escuro mb-3 leading-tight"
+        ></h3>
+        <p
+          id="detalhe-harmonizacao"
+          class="text-xs italic text-gray-600 mb-6 font-light leading-relaxed"
+        ></p>
+
+        <div
+          class="w-full pt-4 border-t border-gray-100 flex justify-between items-center"
+        >
+          <p
+            id="detalhe-preco"
+            class="font-sans font-medium text-escuro text-xl price-tag"
+          ></p>
+          <button
+            id="detalhe-btn-add"
+            class="bg-escuro text-marfim px-6 py-2.5 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-bordo transition-colors cursor-pointer"
+          >
+            Adicionar à Seleção
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- SCRIPTS MÁGICOS -->
     <script>
       const SUPABASE_URL = "https://ucskyvrgekotxxkwtyps.supabase.co";
@@ -675,7 +741,8 @@
           btnEntrar.disabled = false;
         } catch (error) {
           console.error("Erro ao carregar do Supabase:", error);
-          btnEntrar.innerText = "Erro de Conexão";
+          btnEntrar.innerText = "Entrar (Modo Offline)";
+          btnEntrar.disabled = false;
         }
       }
 
@@ -806,7 +873,6 @@
 
         let html = "";
         bodegas.forEach((bod) => {
-          // Mapeamento direto e seguro para evitar qualquer erro de conversão
           let nomeArquivo = "";
           if (bod.toUpperCase().includes("ACHAVAL")) {
             nomeArquivo = "achaval-ferrer";
@@ -837,6 +903,7 @@
 
         container.innerHTML = html;
       }
+
       function renderVinhos(nomeBodega, isAltaGama = false) {
         const container = document.getElementById("wine-list");
         const vinhos = isAltaGama
@@ -899,13 +966,13 @@
 
           html += `
       <div class="wine-card flex gap-4 md:gap-6 py-4 border-b border-gray-200/50 group">
-        <div class="w-16 md:w-20 h-28 md:h-32 bg-transparent flex-shrink-0 flex items-center justify-center mix-blend-multiply">
+        <div onclick="abrirDetalheVinho('${v.id}')" class="w-16 md:w-20 h-28 md:h-32 bg-transparent flex-shrink-0 flex items-center justify-center mix-blend-multiply cursor-pointer" title="Ver em detalhe">
           <img src="${v.img}" alt="${v.nome}" class="h-full object-cover rounded-sm shadow-sm transition-transform group-hover:scale-105" />
         </div>
         <div class="flex flex-col justify-between flex-1 py-1">
           <div>
             ${subtituloBodega}
-            <h3 class="font-serif text-lg md:text-xl font-bold text-escuro leading-tight mt-1">${v.nome}</h3>
+            <h3 onclick="abrirDetalheVinho('${v.id}')" class="font-serif text-lg md:text-xl font-bold text-escuro leading-tight mt-1 cursor-pointer hover:text-bordo transition-colors">${v.nome}</h3>
             ${tagHarmonizacao}
           </div>
           <div class="flex justify-between items-end mt-4">
@@ -989,7 +1056,7 @@
           let totalValue = 0;
           for (let [id, qty] of Object.entries(cartState)) {
             if (qty > 0) {
-              if (id.startsWith("combo_catena")) {
+              if (id.startsWith("combo")) {
                 totalValue +=
                   (qty / 6) * (currentCurrency === "BRL" ? 390.0 : 105000.0);
               } else {
@@ -1084,19 +1151,82 @@
 
       function abrirGuiaHarmonizacao() {
         window.scrollTo(0, 0);
-        document
-          .getElementById("view-guia-harmonizacao")
-          .classList.remove("hidden");
-        document.getElementById("view-guia-harmonizacao").classList.add("flex");
+        const guia = document.getElementById("view-guia-harmonizacao");
+        if (guia) {
+          guia.classList.remove("hidden");
+          guia.classList.add("flex");
+        }
       }
 
       function fecharGuiaHarmonizacao() {
-        document
-          .getElementById("view-guia-harmonizacao")
-          .classList.add("hidden");
-        document
-          .getElementById("view-guia-harmonizacao")
-          .classList.remove("flex");
+        const guia = document.getElementById("view-guia-harmonizacao");
+        if (guia) {
+          guia.classList.remove("flex");
+          guia.classList.add("hidden");
+        }
+      }
+
+      function abrirDetalheVinho(id) {
+        let vinho = catalogoVinhos.find((v) => v.id === id);
+        if (!vinho) return;
+
+        document.getElementById("detalhe-img").src = vinho.img;
+        document.getElementById("detalhe-bodega").innerText = vinho.bodega;
+        document.getElementById("detalhe-nome").innerText = vinho.nome;
+
+        // Calcula a harmonização exata usando a mesma lógica da listagem
+        let nomeMaiusculo = vinho.nome.toUpperCase();
+        let textoHarmonizacao = "";
+
+        if (nomeMaiusculo.includes("MALBEC")) {
+          textoHarmonizacao = "🥩 Ideal para Parrilla e carnes vermelhas";
+        } else if (nomeMaiusculo.includes("CABERNET FRANC")) {
+          textoHarmonizacao = "🍷 Ótimo com carnes magras e risotos";
+        } else if (nomeMaiusculo.includes("CABERNET SAUVIGNON")) {
+          textoHarmonizacao =
+            "🧀 Perfeito para carnes gordurosas e queijos fortes";
+        } else if (nomeMaiusculo.includes("MERLOT")) {
+          textoHarmonizacao =
+            "🍝 Excelente com massas recheadas e aves brancas";
+        } else if (nomeMaiusculo.includes("SYRAH")) {
+          textoHarmonizacao = "🥓 Acompanha bem churrasco e embutidos";
+        } else if (nomeMaiusculo.includes("PINOT NOIR")) {
+          textoHarmonizacao = "🍣 Harmoniza com salmão e pratos com cogumelos";
+        } else if (
+          nomeMaiusculo.includes("TORRONTÉS") ||
+          nomeMaiusculo.includes("TORRONTES")
+        ) {
+          textoHarmonizacao =
+            "🥟 Ideal para empanadas picantes e comida asiática";
+        } else if (nomeMaiusculo.includes("CHARDONNAY")) {
+          textoHarmonizacao = "🍤 Ótimo com peixes encorpados e molhos brancos";
+        } else if (vinho.harmonizacao) {
+          textoHarmonizacao = vinho.harmonizacao;
+        }
+
+        document.getElementById("detalhe-harmonizacao").innerText =
+          textoHarmonizacao;
+
+        const precoFormatado = formatPrice(
+          currentCurrency === "BRL" ? vinho.brl : vinho.ars,
+          currentCurrency,
+        );
+        document.getElementById("detalhe-preco").innerText = precoFormatado;
+
+        const btnAdd = document.getElementById("detalhe-btn-add");
+        btnAdd.onclick = function () {
+          updateQty(vinho.id, 1);
+          fecharDetalheVinho();
+        };
+
+        const modal = document.getElementById("view-detalhe-vinho");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+      function fecharDetalheVinho() {
+        const modal = document.getElementById("view-detalhe-vinho");
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
       }
 
       function filtrarVinhosBodega() {
@@ -1114,21 +1244,18 @@
           }
         });
       }
+
       function esvaziarCarrinho() {
-        // Zera o estado do carrinho e o contador global
         cartState = {};
         totalGarrafas = 0;
 
-        // Limpa visualmente os inputs de quantidade na tela de vinhos ativa
         document.querySelectorAll("[id^='qty-']").forEach((el) => {
           el.innerText = "0";
         });
 
-        // Desmarca a proteção de voo se estiver ativa
         const protVoo = document.getElementById("prot-voo");
         if (protVoo) protVoo.checked = false;
 
-        // Atualiza a barra (o que fará com que ela se esconda automaticamente)
         updateCartBar();
       }
     </script>
