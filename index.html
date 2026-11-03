@@ -54,49 +54,47 @@
     <!-- TELA 1: CAPA (Splash Screen) -->
     <div
       id="view-splash"
-      class="w-full h-screen flex flex-col items-center justify-between py-4 px-6 text-center overflow-hidden bg-marfim relative"
+      class="w-full min-h-screen flex flex-col items-center justify-center px-6 text-center border-b border-gray-200/50 relative overflow-hidden bg-marfim"
     >
       <!-- Parreira decorativa no topo -->
       <div
-        class="absolute top-0 left-0 right-0 w-full pointer-events-none opacity-90 flex justify-center z-10"
+        class="absolute top-0 left-0 right-0 w-full pointer-events-none opacity-90 flex justify-center"
       >
         <img
           src="parreira-topo.png"
           alt="Parreira de Uvas"
-          class="w-full max-w-xs md:max-w-lg h-auto object-contain object-top"
+          class="w-full max-w-lg h-auto object-contain object-top"
         />
       </div>
 
       <!-- Conteúdo Central da Capa -->
-      <div class="flex flex-col items-center justify-center z-20 my-auto pt-6">
-        <img
-          src="logo.png"
-          alt="3J's Wines Logo"
-          class="w-48 md:w-80 mb-3 object-contain"
-        />
-        <h1
-          class="font-serif italic text-xl md:text-4xl text-escuro mb-5 leading-tight"
-        >
-          Sua adega particular <br />em Buenos Aires.
-        </h1>
+      <img
+        src="logo.png"
+        alt="3J's Wines Logo"
+        class="w-72 md:w-96 mb-6 object-contain z-10"
+      />
+      <h1
+        class="font-serif italic text-3xl md:text-5xl text-escuro mb-8 leading-tight z-10"
+      >
+        Sua adega particular <br />em Buenos Aires.
+      </h1>
 
-        <button
-          onclick="abrirExplicacao()"
-          id="btn-entrar"
-          class="w-full max-w-xs bg-escuro text-marfim py-3 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg cursor-pointer"
-        >
-          Carregando catálogo...
-        </button>
-      </div>
+      <button
+        onclick="abrirExplicacao()"
+        id="btn-entrar"
+        class="w-full max-w-xs bg-escuro text-marfim py-4 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg z-20 cursor-pointer"
+      >
+        Carregando catálogo...
+      </button>
 
-      <!-- Vinhedo fixo no rodapé sem espaços brancos -->
+      <!-- Vinhedo fixo no rodapé de borda a borda -->
       <div
         class="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
       >
         <img
           src="vinhedo-rodape.png"
           alt="Vinhedo Rodapé"
-          class="w-full h-24 md:h-40 object-cover object-top opacity-95"
+          class="w-full h-36 md:h-44 object-cover object-top opacity-95"
         />
       </div>
     </div>
@@ -532,7 +530,7 @@
               <img
                 src="logos/pix.png"
                 alt="Logo Pix"
-                class="h-7 md:h-9 object-contain brightness-125 opacity-100 mt-0.5"
+                class="h-6 md:h-8 object-contain bg-white/10 p-0.5 rounded-sm mt-0.5"
               />
             </div>
 
