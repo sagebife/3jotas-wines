@@ -101,21 +101,13 @@
       </div>
     </div>
 
-    <!-- TELA 2: COMO FUNCIONA (Onboarding) -->
+   <!-- TELA 2: COMO FUNCIONA (Onboarding) -->
     <div
       id="view-explicacao"
-      class="hidden w-full min-h-screen flex flex-col justify-between px-6 py-8 text-center relative overflow-hidden bg-marfim"
+      class="hidden w-full h-[100vh] flex flex-col justify-between py-6 px-6 text-center relative overflow-hidden bg-marfim"
+      style="height: 100vh; height: 100dvh;"
     >
-      <div
-        class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center opacity-15 overflow-hidden"
-      >
-        <img
-          src="fundo-momentos.png"
-          alt="Fundo Textura Vinho"
-          class="w-full h-full object-cover"
-        />
-      </div>
-
+      <!-- Topo: Botão Voltar -->
       <div class="w-full max-w-md mx-auto flex justify-start z-20">
         <button
           onclick="abrirSplash()"
@@ -125,18 +117,19 @@
         </button>
       </div>
 
-      <div class="max-w-md w-full mx-auto z-20 my-auto py-4">
+      <!-- Conteúdo Central -->
+      <div class="max-w-md w-full mx-auto z-20 my-auto py-2 pb-16">
         <p
           class="text-xs font-semibold text-dourado uppercase tracking-[0.2em] mb-2"
         >
           Serviço de Concierge
         </p>
-        <h2 class="font-serif text-2xl md:text-3xl font-bold text-escuro mb-6">
+        <h2 class="font-serif text-2xl md:text-3xl font-bold text-escuro mb-4">
           Como funciona?
         </h2>
 
         <div
-          class="text-gray-700 text-sm md:text-base font-light space-y-3 mb-8 text-center leading-relaxed bg-marfim/80 p-4 rounded-sm shadow-sm backdrop-blur-[2px]"
+          class="text-gray-700 text-sm md:text-base font-light space-y-3 mb-6 text-center leading-relaxed bg-marfim/90 p-4 rounded-sm shadow-sm border border-gray-200/40 backdrop-blur-[2px]"
         >
           <p>
             Trabalhamos exclusivamente com
@@ -173,7 +166,17 @@
           </button>
         </div>
       </div>
-      <div class="w-full max-w-sm mx-auto z-10 h-6"></div>
+
+     <!-- Rodapé imersivo expandido para cima a partir da base -->
+      <div
+        class="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
+      >
+        <img
+          src="tela2.png"
+          alt="Rodapé Personalizado"
+          class="w-full h-64 md:h-80 object-cover object-bottom opacity-95 scale-[1.02]"
+        />
+      </div>
     </div>
 
     <!-- TELA 3: MENU DE BODEGAS -->
