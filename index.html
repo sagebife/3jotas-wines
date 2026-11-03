@@ -498,7 +498,7 @@
           </label>
         </div>
 
-        <div class="flex justify-between items-end">
+        <div class="flex justify-between items-center">
           <div>
             <p
               class="text-[10px] text-gray-400 font-semibold uppercase tracking-widest mb-1"
@@ -513,17 +513,24 @@
               class="text-xs mt-1 font-light text-gray-400"
             ></p>
           </div>
-          <button
-            id="btn-checkout"
-            onclick="enviarWhatsApp()"
-            disabled
-            class="bg-bordo text-marfim px-6 py-3 rounded-sm font-semibold text-sm tracking-wide transition-all flex items-center gap-2 opacity-50 cursor-not-allowed border border-bordo/50"
-          >
-            Finalizar
-          </button>
+
+         <!-- Lado direito: Logo do Pix + Botão de Finalizar -->
+          <div class="flex items-center gap-3">
+            <div class="hidden sm:flex flex-col items-end">
+              <span class="text-[10px] text-gray-400 uppercase tracking-widest mb-0.5">Pagamento facilitado</span>
+              <img src="logos/pix.png" alt="Logo Pix" class="h-6 object-contain filter brightness-0 invert opacity-90" />
+            </div>
+
+            <button
+              id="btn-checkout"
+              onclick="enviarWhatsApp()"
+              disabled
+              class="bg-bordo text-marfim px-6 py-3 rounded-sm font-semibold text-sm tracking-wide transition-all flex items-center gap-2 opacity-50 cursor-not-allowed border border-bordo/50"
+            >
+              Finalizar
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
 
     <!-- TELA 5: GUIA DE HARMONIZAÇÃO (Pop-up) -->
     <div
