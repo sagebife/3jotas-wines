@@ -1296,17 +1296,17 @@
 
         let txtProtecao = "";
         if (hasProt && totalGarrafas >= 6) {
-          txtProtecao = `\n🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
+          // \uD83D\uDEE1\uFE0F é o código Unicode para o Escudo 🛡️
+          txtProtecao = `\n\uD83D\uDEE1\uFE0F Incluir Proteção de Voo (${numCaixas} caixa(s))`;
           total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
         }
 
-        // Usando \n para quebras de linha em vez de %0A
-        const msg = `🍷 Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n💵 Moeda: ${currentCurrency}${txtProtecao}\n💰 *Total Estimado: ${formatPrice(
+        // Os emojis estão convertidos em códigos (ex: \uD83C\uDF77 = Taça de Vinho 🍷)
+        const msg = `\uD83C\uDF77 Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n\uD83D\uDCE6 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n\uD83D\uDCB5 Moeda: ${currentCurrency}${txtProtecao}\n\uD83D\uDCB0 *Total Estimado: ${formatPrice(
           total,
           currentCurrency,
         )}*\n\n*Meu Pedido:*${resumo}\n\nAguardo contato para finalizar o pagamento.`;
         
-        // O Segredo Mágico: encodeURIComponent traduz os emojis para o link do WhatsApp
         const url = `https://wa.me/${numeroTel}?text=${encodeURIComponent(msg)}`;
         window.open(url, "_blank");
       }
