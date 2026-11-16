@@ -1268,55 +1268,57 @@
         }
       }
 
-     function enviarWhatsApp() {
-        const numeroTel = "5491132533990";
-        const checkboxProt = document.getElementById("prot-voo");
-        const hasProt = checkboxProt ? checkboxProt.checked : false;
-        
-        const numCaixas = Math.ceil(totalGarrafas / 6);
+     
+function enviarWhatsApp() {
+    const numeroTel = "5491132533990";
+    const checkboxProt = document.getElementById("prot-voo");
+    const hasProt = checkboxProt ? checkboxProt.checked : false;
 
-        let resumo = "";
-        let total = 0;
+    const numCaixas = Math.ceil(totalGarrafas / 6);
 
-        for (let [id, qty] of Object.entries(cartState)) {
-          if (qty > 0) {
+    let resumo = "";
+    let total = 0;
+
+    for (let [id, qty] of Object.entries(cartState)) {
+        if (qty > 0) {
             if (id.startsWith("combo")) {
-              resumo += `\n- ${qty / 6}x Caixa(s) Combo Fechado`;
-              total += (qty / 6) * (currentCurrency === "BRL" ? 390 : 105000);
+                resumo += `\n- ${qty / 6}x Caixa(s) Combo Fechado`;
+                total += (qty / 6) * (currentCurrency === "BRL" ? 390 : 105000);
             } else {
-              let vinho = catalogoVinhos.find((v) => v.id === id);
-              if (vinho) {
-                resumo += `\n- ${qty}x ${vinho.bodega} ${vinho.nome}`;
-                total +=
-                  qty * (currentCurrency === "BRL" ? vinho.brl : vinho.ars);
-              }
+                let vinho = catalogoVinhos.find(v => v.id === id);
+
+                if (vinho) {
+                    resumo += `\n- ${qty}x ${vinho.bodega} ${vinho.nome}`;
+                    total += qty * (currentCurrency === "BRL" ? vinho.brl : vinho.ars);
+                }
             }
-          }
         }
+    }
 
-        let txtProtecao = "";
-        if (hasProt && totalGarrafas >= 6) {
-          txtProtecao = `\n🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
-          total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
-        }
+    let txtProtecao = "";
 
-        const msg = `🍷 Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n💵 Moeda: ${currentCurrency}${txtProtecao}\n💰 *Total Estimado: ${formatPrice(
-          total,
-          currentCurrency,
-        )}*\n\n*Meu Pedido:*${resumo}\n\nAguardo contato para finalizar o pagamento.`;
-        
-        // URL universal otimizada para telemóveis
-        const url = `https://api.whatsapp.com/send?phone=${numeroTel}&text=${encodeURIComponent(msg)}`;
-        
-        // Disparo limpo: cria um link invisível e simula o clique nativo sem piscar a página
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('target', '_blank');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-      
+    if (hasProt && totalGarrafas >= 6) {
+        txtProtecao = `\n🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
+        total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
+    }
+
+    const msg = `🍷 Olá, 3J's Wines!
+
+Gostaria de solicitar minha seleção:
+📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))
+💵 Moeda: ${currentCurrency}${txtProtecao}
+💰 *Total Estimado: ${formatPrice(total, currentCurrency)}*
+
+*Meu Pedido:*${resumo}
+
+Aguardo contato para finalizar o pagamento.`;
+
+    const url = `https://api.whatsapp.com/send?phone=${numeroTel}&text=${encodeURIComponent(msg)}`;
+
+    // Abre o WhatsApp diretamente, sem redirecionar a página atual
+    window.open(url, "_blank");
+}
+
 
       function fecharGuiaHarmonizacao() {
         const guia = document.getElementById("view-guia-harmonizacao");
