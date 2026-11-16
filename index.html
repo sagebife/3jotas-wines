@@ -1496,16 +1496,16 @@
 
           <div class="flex flex-col gap-2.5 w-[80%] mx-auto mt-2 relative z-30 pointer-events-auto">
             <button
-              onclick="confirmarIdade(true); event.stopPropagation();"
-              ontouchend="confirmarIdade(true); event.preventDefault(); event.stopPropagation();"
-              class="w-full bg-bordo/95 border border-bordo text-white py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase hover:bg-red-900 transition-colors cursor-pointer shadow-lg"
+              onclick="confirmarIdade(true)"
+              ontouchend="confirmarIdade(true); event.preventDefault();"
+              class="w-full bg-bordo/95 border border-bordo text-white py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase md:hover:bg-red-900 transition-colors cursor-pointer shadow-lg select-none"
             >
               Sim, sou maior
             </button>
             <button
-              onclick="confirmarIdade(false); event.stopPropagation();"
-              ontouchend="confirmarIdade(false); event.preventDefault(); event.stopPropagation();"
-              class="w-full bg-transparent border border-white/60 text-white py-2 rounded-full text-[9px] font-bold tracking-widest uppercase hover:bg-white/20 transition-colors cursor-pointer"
+              onclick="confirmarIdade(false)"
+              ontouchend="confirmarIdade(false); event.preventDefault();"
+              class="w-full bg-transparent border border-white/60 text-white py-2 rounded-full text-[9px] font-bold tracking-widest uppercase md:hover:bg-white/20 transition-colors cursor-pointer select-none"
             >
               Não, sou menor
             </button>
