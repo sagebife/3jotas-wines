@@ -82,24 +82,24 @@
         </h1>
 
         <button
-          onclick="abrirExplicacao()"
-          id="btn-entrar"
-          class="w-full max-w-xs bg-escuro text-marfim py-4 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg cursor-pointer"
-        >
-          Carregando catálogo...
-        </button>
+  id="btn-entrar"
+  onclick="tentarEntrar()"
+  class="w-full bg-escuro text-marfim py-3.5 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg cursor-pointer"
+>
+  Entrar
+</button>
       </div>
 
       <!-- Vinhedo fixo no rodapé travado na base -->
-      <div
-        class="absolute bottom-[-2px] left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
-      >
-        <img
-          src="vinhedo-rodape.png"
-          alt="Vinhedo Rodapé"
-          class="w-full h-32 md:h-44 object-cover object-top opacity-95 scale-[1.02]"
-        />
-      </div>
+    <div
+      class="absolute bottom-[35px] left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
+    >
+      <img
+        src="vinhedo-rodape.png"
+        alt="Vinhedo Rodapé"
+        class="w-full h-32 md:h-44 object-cover object-top opacity-95 scale-[1.02]"
+      />
+    </div>
     </div>
 
    <!-- TELA 2: COMO FUNCIONA (Onboarding) -->
@@ -1306,13 +1306,104 @@
 
         updateCartBar();
       }
+
       function fecharDetalheVinho() {
+        vinhoAtualId = null;
         const modal = document.getElementById("view-detalhe-vinho");
         if (modal) {
           modal.classList.remove("flex");
           modal.classList.add("hidden");
         }
       }
-    </script>
+
+      // --- VERIFICAÇÃO DE IDADE (BARRIL POP-UP) ---
+      function tentarEntrar() {
+        // Abre o pop-up diretamente
+        const modalIdade = document.getElementById('modal-idade');
+        modalIdade.classList.remove('hidden');
+        modalIdade.classList.add('flex');
+      }
+
+      function confirmarIdade(isMaior) {
+        const modalIdade = document.getElementById('modal-idade');
+        const erroIdade = document.getElementById('erro-idade');
+
+        if (isMaior) {
+          // Fecha o pop-up e avança para a Tela 2
+          modalIdade.classList.add('hidden');
+          modalIdade.classList.remove('flex');
+          
+          abrirExplicacao(); 
+        } else {
+          // Mostra mensagem de erro se for menor
+          erroIdade.classList.remove('hidden');
+        }
+      }
+
+    </script> <!-- AQUI FECHA O JAVASCRIPT CORRETAMENTE -->
+
+
+    <!-- POP-UP DE VERIFICAÇÃO DE IDADE (BARRIL RÚSTICO - VISUAL MELHORADO) -->
+    <div
+      id="modal-idade"
+      class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-300"
+    >
+      <!-- O Pop-up circular -->
+      <div class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center text-center px-6 overflow-hidden border-2 border-amber-900/30">
+        
+        <!-- Imagem de fundo do Barril -->
+        <img 
+      src="image_8.png" 
+      alt="Barril de Madeira" 
+      class="absolute inset-0 w-full h-full object-cover scale-[1.08] translate-x-[-11px] translate-y-[-2px] z-0 pointer-events-none"
+    />
+
+        <!-- NOVA PELÍCULA DE ESCURECIMENTO (OVERLAY) PARA DAR LEITURA -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7)_10%,rgba(0,0,0,0.3)_100%)] z-0 pointer-events-none"></div>
+
+        <!-- Conteúdo sobreposto -->
+        <div class="relative z-10 flex flex-col items-center justify-center max-w-[260px] md:max-w-[280px]">
+          <p class="text-[10px] md:text-xs font-bold text-dourado uppercase tracking-[0.2em] mb-1 drop-shadow-md">
+            3J's Wines
+          </p>
+          <h2 class="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
+            Você tem mais<br>de 18 anos?
+          </h2>
+          <p class="text-gray-100 text-[11px] md:text-xs font-medium mb-5 leading-relaxed drop-shadow-md">
+            Para acessar nosso serviço de concierge e adquirir bebidas alcoólicas, você precisa ser maior de idade.
+          </p>
+          
+          <!-- Botões pílula ajustados para caber no centro do barril -->
+      <div class="flex flex-col gap-2.5 w-[80%] mx-auto mt-2">
+        <button
+          onclick="confirmarIdade(true)"
+          class="w-full bg-bordo/95 border border-bordo text-white py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase hover:bg-red-900 transition-colors cursor-pointer shadow-lg"
+        >
+          Sim, sou maior
+        </button>
+        <button
+          onclick="confirmarIdade(false)"
+          class="w-full bg-transparent border border-white/60 text-white py-2 rounded-full text-[9px] font-bold tracking-widest uppercase hover:bg-white/20 transition-colors cursor-pointer"
+        >
+          Não, sou menor
+        </button>
+      </div>
+          
+          <!-- Mensagem de Erro -->
+          <p id="erro-idade" class="text-red-400 text-xs mt-3 hidden font-bold bg-black/80 px-3 py-1.5 rounded-sm shadow-md">
+            Acesso restrito a maiores de 18 anos.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- COPYRIGHT GLOBAL (CAIXA SÓLIDA NO RODAPÉ - SEMPRE NO TOPO DAS CAMADAS) -->
+  <div class="fixed bottom-0 left-0 w-full bg-marfim border-t border-gray-300 py-2.5 z-[90] shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
+    <p class="text-black text-[9px] md:text-[10px] font-bold tracking-widest text-center">
+      &copy; Copyright 2026 3J's Wines. Todos os direitos reservados.
+    </p>
+  </div>
+
+</body>
+</html>
   </body>
 </html>
