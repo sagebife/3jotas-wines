@@ -1305,18 +1305,18 @@
           currentCurrency,
         )}*\n\n*Meu Pedido:*${resumo}\n\nAguardo contato para finalizar o pagamento.`;
         
-        // No telemóvel, o encodeURIComponent transforma os emojis em símbolos web seguros que a app do WhatsApp traduz perfeitamente
+        // URL universal otimizada para telemóveis
         const url = `https://api.whatsapp.com/send?phone=${numeroTel}&text=${encodeURIComponent(msg)}`;
-        window.location.href = url;
+        
+        // Disparo limpo: cria um link invisível e simula o clique nativo sem piscar a página
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('target', '_blank');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
-      function abrirGuiaHarmonizacao() {
-        window.scrollTo(0, 0);
-        const guia = document.getElementById("view-guia-harmonizacao");
-        if (guia) {
-          guia.classList.remove("hidden");
-          guia.classList.add("flex");
-        }
-      }
+      
 
       function fecharGuiaHarmonizacao() {
         const guia = document.getElementById("view-guia-harmonizacao");
