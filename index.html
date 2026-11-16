@@ -1268,12 +1268,11 @@
         }
       }
 
-      function enviarWhatsApp() {
+     function enviarWhatsApp() {
         const numeroTel = "5491132533990";
         const checkboxProt = document.getElementById("prot-voo");
         const hasProt = checkboxProt ? checkboxProt.checked : false;
-
-        // CORREÇÃO AQUI: Math.ceil força o arredondamento para cima (ex: 9 garrafas = 2 caixas)
+        
         const numCaixas = Math.ceil(totalGarrafas / 6);
 
         let resumo = "";
@@ -1282,12 +1281,12 @@
         for (let [id, qty] of Object.entries(cartState)) {
           if (qty > 0) {
             if (id.startsWith("combo")) {
-              resumo += `%0A- ${qty / 6}x Caixa(s) Combo Fechado`;
+              resumo += `\n- ${qty / 6}x Caixa(s) Combo Fechado`;
               total += (qty / 6) * (currentCurrency === "BRL" ? 390 : 105000);
             } else {
               let vinho = catalogoVinhos.find((v) => v.id === id);
               if (vinho) {
-                resumo += `%0A- ${qty}x ${vinho.bodega} ${vinho.nome}`;
+                resumo += `\n- ${qty}x ${vinho.bodega} ${vinho.nome}`;
                 total +=
                   qty * (currentCurrency === "BRL" ? vinho.brl : vinho.ars);
               }
@@ -1296,20 +1295,21 @@
         }
 
         let txtProtecao = "";
-        // CORREÇÃO: Garante que a proteção só é cobrada e descrita se houver 6+ garrafas
         if (hasProt && totalGarrafas >= 6) {
-          txtProtecao = `%0A🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
+          txtProtecao = `\n🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
           total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
         }
 
-        const msg = `🍷 Olá, 3J's Wines!%0A%0AGostaria de solicitar minha seleção:%0A📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))%0A💵 Moeda: ${currentCurrency}${txtProtecao}%0A💰 *Total Estimado: ${formatPrice(
+        // Usando \n para quebras de linha em vez de %0A
+        const msg = `🍷 Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n💵 Moeda: ${currentCurrency}${txtProtecao}\n💰 *Total Estimado: ${formatPrice(
           total,
           currentCurrency,
-        )}*%0A%0A*Meu Pedido:*${resumo}%0A%0AAguardo contato para finalizar o pagamento.`;
-        const url = `https://wa.me/${numeroTel}?text=${msg}`;
+        )}*\n\n*Meu Pedido:*${resumo}\n\nAguardo contato para finalizar o pagamento.`;
+        
+        // O Segredo Mágico: encodeURIComponent traduz os emojis para o link do WhatsApp
+        const url = `https://wa.me/${numeroTel}?text=${encodeURIComponent(msg)}`;
         window.open(url, "_blank");
       }
-
       function abrirGuiaHarmonizacao() {
         window.scrollTo(0, 0);
         const guia = document.getElementById("view-guia-harmonizacao");
