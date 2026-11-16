@@ -51,11 +51,11 @@
     </style>
   </head>
   <body class="bg-marfim text-escuro font-sans antialiased">
-   <!-- TELA 1: CAPA (Splash Screen) -->
+    <!-- TELA 1: CAPA (Splash Screen) -->
     <div
       id="view-splash"
       class="w-full h-[100vh] flex flex-col items-center justify-between py-6 px-6 text-center relative overflow-hidden bg-marfim"
-      style="height: 100vh; height: 100dvh;"
+      style="height: 100vh; height: 100dvh"
     >
       <!-- Parreira decorativa no topo -->
       <div
@@ -82,31 +82,31 @@
         </h1>
 
         <button
-  id="btn-entrar"
-  onclick="tentarEntrar()"
-  class="w-full bg-escuro text-marfim py-3.5 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg cursor-pointer"
->
-  Entrar
-</button>
+          id="btn-entrar"
+          onclick="tentarEntrar()"
+          class="w-full bg-escuro text-marfim py-3.5 rounded-sm text-xs font-bold tracking-widest uppercase hover:bg-bordo transition-colors shadow-lg cursor-pointer"
+        >
+          Entrar
+        </button>
       </div>
 
       <!-- Vinhedo fixo no rodapé travado na base -->
-    <div
-      class="absolute bottom-[45px] left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
-    >
-      <img
-        src="vinhedo-rodape.png"
-        alt="Vinhedo Rodapé"
-        class="w-full h-32 md:h-44 object-cover object-top opacity-95 scale-[1.02]"
-      />
-    </div>
+      <div
+        class="absolute bottom-[45px] left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
+      >
+        <img
+          src="vinhedo-rodape.png"
+          alt="Vinhedo Rodapé"
+          class="w-full h-32 md:h-44 object-cover object-top opacity-95 scale-[1.02]"
+        />
+      </div>
     </div>
 
-   <!-- TELA 2: COMO FUNCIONA (Onboarding) -->
+    <!-- TELA 2: COMO FUNCIONA (Onboarding) -->
     <div
       id="view-explicacao"
       class="hidden w-full h-[100vh] flex flex-col justify-between py-6 px-6 text-center relative overflow-hidden bg-marfim"
-      style="height: 100vh; height: 100dvh;"
+      style="height: 100vh; height: 100dvh"
     >
       <!-- Topo: Botão Voltar -->
       <div class="w-full max-w-md mx-auto flex justify-start z-20">
@@ -137,7 +137,9 @@
             <strong class="font-bold text-bordo"
               >múltiplos de 6 garrafas</strong
             >
-            para cumprir o formato exigido pelas companhias aéreas. Você tem total liberdade para misturar os rótulos e bodegas que desejar na mesma caixa.
+            para cumprir o formato exigido pelas companhias aéreas. Você tem
+            total liberdade para misturar os rótulos e bodegas que desejar na
+            mesma caixa.
           </p>
           <p>
             Entregamos o seu pedido diretamente na recepção do seu hotel em
@@ -168,7 +170,7 @@
         </div>
       </div>
 
-     <!-- Rodapé imersivo expandido para cima a partir da base -->
+      <!-- Rodapé imersivo expandido para cima a partir da base -->
       <div
         class="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-10 overflow-hidden leading-none"
       >
@@ -214,14 +216,14 @@
           </div>
 
           <div class="w-full mb-6">
-  <input
-    type="text"
-    id="inputBuscaGlobal"
-    oninput="buscarGlobal(this.value)"
-    placeholder="Buscar por vinho, uva ou bodega (ex: Malbec)..."
-    class="w-full border border-gray-300 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-bordo transition-colors shadow-sm bg-white"
-  />
-</div>
+            <input
+              type="text"
+              id="inputBuscaGlobal"
+              oninput="buscarGlobal(this.value)"
+              placeholder="Buscar por vinho, uva ou bodega (ex: Malbec)..."
+              class="w-full border border-gray-300 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-bordo transition-colors shadow-sm bg-white"
+            />
+          </div>
         </div>
       </div>
 
@@ -467,89 +469,95 @@
       </section>
     </div>
 
-    <!-- CARRINHO FLUTUANTE -->
+    <!-- BARRA DO CARRINHO (CARRINHO FLUTUANTE) -->
     <div
       id="cart-bar"
-      class="hidden fixed bottom-0 left-0 right-0 p-5 glass-dark text-marfim transform translate-y-full transition-transform duration-500 z-50 shadow-2xl border-t border-gray-700"
+      class="fixed bottom-10 left-0 w-full bg-[#3d2c23] border-t border-b border-[#2b1f18] z-[85] transition-transform duration-500 hidden shadow-[0_-10px_30px_rgba(0,0,0,0.3)]"
     >
-      <div class="max-w-5xl mx-auto relative">
-        <!-- Botão para fechar / esvaziar o carrinho -->
-        <button
-          onclick="esvaziarCarrinho()"
-          class="absolute -top-3 right-0 text-gray-400 hover:text-white text-xs uppercase tracking-widest flex items-center gap-1 cursor-pointer bg-escuro/80 px-2 py-1 rounded border border-gray-600"
-          title="Esvaziar carrinho"
-        >
-          <span>&times; Limpar</span>
-        </button>
-
-        <div
-          class="mb-4 pb-4 border-b border-gray-700/50 flex items-start gap-3"
-        >
+      <!-- LINHA SUPERIOR: Proteção de voo e Botão Limpar -->
+      <div
+        class="max-w-5xl mx-auto px-4 py-2.5 flex justify-between items-center border-b border-white/10 bg-black/10"
+      >
+        <label class="flex items-center gap-2 cursor-pointer group">
           <input
             type="checkbox"
             id="prot-voo"
+            class="w-4 h-4 accent-dourado cursor-pointer"
             onchange="updateCartBar()"
-            class="mt-1 w-4 h-4 text-bordo rounded border-gray-500 focus:ring-bordo accent-dourado cursor-pointer bg-transparent"
           />
-          <label for="prot-voo" class="cursor-pointer select-none">
-            <p class="text-sm font-medium text-marfim tracking-wide">
-              Adicionar Proteção de Voo
-            </p>
-            <p class="text-[11px] text-gray-400 mt-1 font-light">
-              Bolha individual.
-              <span class="font-semibold text-dourado"
-                >+ <span id="price-prot">R$ 12,00</span> / caixa</span
-              >
-            </p>
-          </label>
+          <span
+            class="text-marfim text-[11px] md:text-sm font-medium select-none group-hover:text-white transition-colors flex items-center gap-1.5"
+          >
+            Adicionar Proteção de Voo
+            <span class="text-dourado font-bold text-[10px]" id="price-prot"
+              >+ R$ 12,00 / caixa</span
+            >
+          </span>
+        </label>
+        <button
+          onclick="esvaziarCarrinho()"
+          class="text-gray-400 hover:text-white text-[9px] md:text-xs uppercase tracking-widest border border-gray-600 hover:border-gray-400 rounded-sm px-3 py-1 transition-all"
+        >
+          ✕ Limpar
+        </button>
+      </div>
+
+      <!-- LINHA INFERIOR: Totais, Pix e Botão Finalizar -->
+      <div
+        class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3"
+      >
+        <!-- Bloco 1: Sua Seleção (O JS atualiza apenas o que está dentro do cart-message) -->
+        <div class="flex-1 flex flex-col justify-center">
+          <p
+            class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1"
+          >
+            Sua Seleção (<span id="cart-count">0</span>)
+          </p>
+          <!-- Este ID está isolado para o JavaScript não destruir o resto -->
+          <div
+            id="cart-message"
+            class="text-marfim text-sm md:text-base leading-tight min-h-[36px] flex flex-col justify-center"
+          >
+            <!-- JavaScript injeta totais aqui -->
+          </div>
         </div>
 
-        <div class="flex justify-between items-center">
-          <div>
-            <p
-              class="text-[10px] text-gray-400 font-semibold uppercase tracking-widest mb-1"
+        <!-- Bloco 2: Aviso Pix Elegante -->
+        <div
+          class="hidden sm:flex flex-col items-center justify-center opacity-90 px-4 md:px-6 border-l border-r border-white/10 h-10"
+        >
+          <p
+            class="text-[8px] text-gray-400 uppercase tracking-widest leading-none mb-1"
+          >
+            Pagamento via
+          </p>
+          <div class="flex items-center gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4 text-[#32bcad]"
+              viewBox="0 0 512 512"
+              fill="currentColor"
             >
-              Sua Seleção
-            </p>
-            <p class="font-serif italic text-2xl text-marfim leading-none">
-              <span id="cart-count">0</span> garrafas
-            </p>
-            <p
-              id="cart-message"
-              class="text-xs mt-1 font-light text-gray-400"
-            ></p>
-          </div>
-
-          <!-- Lado direito: Bloco do Pix empilhado em 3 linhas -->
-          <div class="flex items-center gap-3">
-            <div
-              class="flex flex-col items-center sm:items-end text-center sm:text-right leading-tight"
-            >
-              <span
-                class="text-[12px] text-gray-400 font-semibold uppercase tracking-widest"
-                >PAGAMENTO</span
-              >
-              <span
-                class="text-[12px] text-gray-400 font-semibold uppercase tracking-widest my-0.5"
-                >SOMENTE</span
-              >
-              <img
-                src="logos/pix.png"
-                alt="Logo Pix"
-                class="h-7 md:h-10 object-contain brightness-125 opacity-100 mt-0.5"
+              <path
+                d="M116.89 231L231.5 116.39c13.53-13.53 35.48-13.53 49 0L395.11 231c13.53 13.53 13.53 35.48 0 49L280.5 394.61c-13.53 13.53-35.48 13.53-49 0L116.89 280c-13.53-13.52-13.53-35.47 0-49zm65.26 65.27L256 370.15l73.85-73.88-34.9-34.9-38.95 38.96-38.96-38.96-34.89 34.9zm0-114.54l34.89 34.9 38.96-38.96 38.95 38.96 34.9-34.9L256 107.85l-73.85 73.88z"
               />
-            </div>
-            </div>
-
-            <button
-              id="btn-checkout"
-              onclick="enviarWhatsApp()"
-              disabled
-              class="bg-bordo text-marfim px-6 py-3.5 rounded-sm font-semibold text-sm tracking-wide transition-all flex items-center gap-2 opacity-50 cursor-not-allowed border border-bordo/50"
+            </svg>
+            <span
+              class="text-[#32bcad] font-bold text-sm md:text-base tracking-wide"
+              >PIX</span
             >
-              Finalizar
-            </button>
           </div>
+        </div>
+
+        <!-- Bloco 3: Botão Finalizar -->
+        <div class="flex-shrink-0 flex items-center">
+          <button
+            id="btn-checkout"
+            onclick="enviarWhatsApp()"
+            class="bg-marfim text-escuro hover:bg-[#32bcad] hover:text-white px-6 py-3 md:px-8 md:py-3.5 rounded-sm font-bold text-xs md:text-sm uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] whitespace-nowrap"
+          >
+            Finalizar
+          </button>
         </div>
       </div>
     </div>
@@ -817,86 +825,112 @@
         document.getElementById("view-explicacao").classList.add("flex");
       }
 
-     function abrirMenuBodegas() {
+      function abrirMenuBodegas() {
         window.scrollTo(0, 0);
         esconderTudo();
         document.getElementById("view-menu-bodegas").classList.remove("hidden");
-        
+
         // CORREÇÃO: Usando o novo ID com verificação de segurança
-        const inputBusca = document.getElementById('inputBuscaGlobal');
-        if (inputBusca) inputBusca.value = '';
-        
+        const inputBusca = document.getElementById("inputBuscaGlobal");
+        if (inputBusca) inputBusca.value = "";
+
         renderGridBodegas();
       }
 
       // NOVA FUNÇÃO: BUSCA GLOBAL MÁGICA
       function buscarGlobal(termo) {
         // Remove acentos e formata para minúsculas
-        const termoFormatado = termo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        const termoFormatado = termo
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .trim();
         const container = document.getElementById("grid-bodegas");
 
         // Se o input estiver vazio, volta a mostrar a grade de bodegas normal
         if (termoFormatado === "") {
-            renderGridBodegas();
-            return;
+          renderGridBodegas();
+          return;
         }
 
         // Filtra o catálogo inteiro por nome do vinho, uva ou nome da bodega
         const vinhosFiltrados = catalogoVinhos.filter((v) => {
-            const nome = (v.nome || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const uva = (v.uva || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const bodega = (v.bodega || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            return nome.includes(termoFormatado) || uva.includes(termoFormatado) || bodega.includes(termoFormatado);
+          const nome = (v.nome || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+          const uva = (v.uva || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+          const bodega = (v.bodega || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+          return (
+            nome.includes(termoFormatado) ||
+            uva.includes(termoFormatado) ||
+            bodega.includes(termoFormatado)
+          );
         });
 
         // Truque de Mestre: Usar as colunas da grade para expandir a lista de vinhos
         let html = `<div class="col-span-2 md:col-span-4 w-full flex flex-col gap-0">`;
-        
+
         if (vinhosFiltrados.length === 0) {
-            html += `<p class="text-center text-gray-500 text-sm mt-8 pb-10">Nenhum vinho encontrado para "${termo}".</p>`;
+          html += `<p class="text-center text-gray-500 text-sm mt-8 pb-10">Nenhum vinho encontrado para "${termo}".</p>`;
         } else {
-            // Desenha os cartões dos vinhos encontrados
-            vinhosFiltrados.forEach((v) => {
-              let qty = cartState[v.id] || 0;
-              let subtituloBodega = `<p class="text-[10px] font-semibold text-dourado uppercase tracking-widest">${v.bodega}</p>`;
+          // Desenha os cartões dos vinhos encontrados
+          vinhosFiltrados.forEach((v) => {
+            let qty = cartState[v.id] || 0;
+            let subtituloBodega = `<p class="text-[10px] font-semibold text-dourado uppercase tracking-widest">${v.bodega}</p>`;
 
-              let nomeMaiusculo = v.nome.toUpperCase();
-              let textoHarmonizacao = "";
+            let nomeMaiusculo = v.nome.toUpperCase();
+            let textoHarmonizacao = "";
 
-              if (nomeMaiusculo.includes("MALBEC")) {
-                textoHarmonizacao = "🥩 Ideal para Parrilla e carnes vermelhas";
-              } else if (nomeMaiusculo.includes("CABERNET FRANC")) {
-                textoHarmonizacao = "🍷 Ótimo com carnes magras e risotos";
-              } else if (nomeMaiusculo.includes("CABERNET SAUVIGNON")) {
-                textoHarmonizacao = "🧀 Perfeito para carnes gordurosas e queijos fortes";
-              } else if (nomeMaiusculo.includes("MERLOT")) {
-                textoHarmonizacao = "🍝 Excelente com massas recheadas e aves brancas";
-              } else if (nomeMaiusculo.includes("SYRAH")) {
-                textoHarmonizacao = "🥓 Acompanha bem churrasco e embutidos";
-              } else if (nomeMaiusculo.includes("PINOT NOIR")) {
-                textoHarmonizacao = "🍣 Harmoniza com salmão e pratos com cogumelos";
-              } else if (nomeMaiusculo.includes("TORRONTÉS") || nomeMaiusculo.includes("TORRONTES")) {
-                textoHarmonizacao = "🥟 Ideal para empanadas picantes e comida asiática";
-              } else if (nomeMaiusculo.includes("CHARDONNAY")) {
-                textoHarmonizacao = "🍤 Ótimo com peixes encorpados e molhos brancos";
-              } else if (v.harmonizacao) {
-                textoHarmonizacao = v.harmonizacao;
-              }
+            if (nomeMaiusculo.includes("MALBEC")) {
+              textoHarmonizacao = "🥩 Ideal para Parrilla e carnes vermelhas";
+            } else if (nomeMaiusculo.includes("CABERNET FRANC")) {
+              textoHarmonizacao = "🍷 Ótimo com carnes magras e risotos";
+            } else if (nomeMaiusculo.includes("CABERNET SAUVIGNON")) {
+              textoHarmonizacao =
+                "🧀 Perfeito para carnes gordurosas e queijos fortes";
+            } else if (nomeMaiusculo.includes("MERLOT")) {
+              textoHarmonizacao =
+                "🍝 Excelente com massas recheadas e aves brancas";
+            } else if (nomeMaiusculo.includes("SYRAH")) {
+              textoHarmonizacao = "🥓 Acompanha bem churrasco e embutidos";
+            } else if (nomeMaiusculo.includes("PINOT NOIR")) {
+              textoHarmonizacao =
+                "🍣 Harmoniza com salmão e pratos com cogumelos";
+            } else if (
+              nomeMaiusculo.includes("TORRONTÉS") ||
+              nomeMaiusculo.includes("TORRONTES")
+            ) {
+              textoHarmonizacao =
+                "🥟 Ideal para empanadas picantes e comida asiática";
+            } else if (nomeMaiusculo.includes("CHARDONNAY")) {
+              textoHarmonizacao =
+                "🍤 Ótimo com peixes encorpados e molhos brancos";
+            } else if (v.harmonizacao) {
+              textoHarmonizacao = v.harmonizacao;
+            }
 
-              let tagHarmonizacao = textoHarmonizacao
-                ? `<p class="text-[11px] italic text-gray-500 mt-1 font-light tracking-wide">${textoHarmonizacao}</p>`
-                : "";
+            let tagHarmonizacao = textoHarmonizacao
+              ? `<p class="text-[11px] italic text-gray-500 mt-1 font-light tracking-wide">${textoHarmonizacao}</p>`
+              : "";
 
-              let controleEstoque = v.ativo !== false
-                  ? `
+            let controleEstoque =
+              v.ativo !== false
+                ? `
             <div class="flex items-center gap-3 md:gap-4">
               <button onclick="updateQty('${v.id}', -1)" class="text-gray-400 hover:text-bordo font-light text-xl transition-colors cursor-pointer">−</button>
               <span id="qty-${v.id}" class="text-sm md:text-base font-semibold w-4 text-center text-escuro">${qty}</span>
               <button onclick="updateQty('${v.id}', 1)" class="text-gray-400 hover:text-bordo font-light text-xl transition-colors cursor-pointer">+</button>
             </div>`
-                  : `<span class="text-xs font-semibold text-red-700 uppercase tracking-wider">Sin stock</span>`;
+                : `<span class="text-xs font-semibold text-red-700 uppercase tracking-wider">Sin stock</span>`;
 
-              html += `
+            html += `
           <div class="wine-card flex gap-4 md:gap-6 py-4 border-b border-gray-200/50 group bg-marfim">
             <div onclick="abrirDetalheVinho('${v.id}')" class="w-16 md:w-20 h-28 md:h-32 bg-transparent flex-shrink-0 flex items-center justify-center mix-blend-multiply cursor-pointer" title="Ver em detalhe">
               <img src="${v.img}" alt="${v.nome}" class="h-full object-cover rounded-sm shadow-sm transition-transform group-hover:scale-105" />
@@ -915,9 +949,9 @@
               </div>
             </div>
           </div>`;
-            });
+          });
         }
-        
+
         html += `</div>`;
         container.innerHTML = html;
         setCurrency(currentCurrency); // Atualiza os preços para a moeda selecionada
@@ -1116,12 +1150,12 @@
           btnBrl.className = activeClass;
           btnArs.className = inactiveClass;
           const prot = document.getElementById("price-prot");
-          if(prot) prot.innerText = "R$ 12,00";
+          if (prot) prot.innerText = "R$ 12,00";
         } else {
           btnArs.className = activeClass;
           btnBrl.className = inactiveClass;
           const prot = document.getElementById("price-prot");
-          if(prot) prot.innerText = "AR$ 2.400,00";
+          if (prot) prot.innerText = "AR$ 2.400,00";
         }
 
         document.querySelectorAll(".price-tag").forEach((tag) => {
@@ -1146,7 +1180,7 @@
 
         // Atualiza a quantidade na tela da loja e na busca global
         const qtyElements = document.querySelectorAll("#qty-" + id);
-        qtyElements.forEach(el => el.innerText = newQty);
+        qtyElements.forEach((el) => (el.innerText = newQty));
 
         updateCartBar();
       }
@@ -1225,7 +1259,9 @@
         const numeroTel = "5491132533990";
         const checkboxProt = document.getElementById("prot-voo");
         const hasProt = checkboxProt ? checkboxProt.checked : false;
-        const numCaixas = totalGarrafas / 6;
+
+        // CORREÇÃO AQUI: Math.ceil força o arredondamento para cima (ex: 9 garrafas = 2 caixas)
+        const numCaixas = Math.ceil(totalGarrafas / 6);
 
         let resumo = "";
         let total = 0;
@@ -1247,12 +1283,13 @@
         }
 
         let txtProtecao = "";
-        if (hasProt) {
+        // CORREÇÃO: Garante que a proteção só é cobrada e descrita se houver 6+ garrafas
+        if (hasProt && totalGarrafas >= 6) {
           txtProtecao = `%0A🛡️ Incluir Proteção de Voo (${numCaixas} caixa(s))`;
           total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
         }
 
-        const msg = `🍷 Olá, 3J's Wines!%0A%0AGostaria de solicitar minha seleção:%0A📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixas)%0A💵 Moeda: ${currentCurrency}${txtProtecao}%0A💰 *Total Estimado: ${formatPrice(
+        const msg = `🍷 Olá, 3J's Wines!%0A%0AGostaria de solicitar minha seleção:%0A📦 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))%0A💵 Moeda: ${currentCurrency}${txtProtecao}%0A💰 *Total Estimado: ${formatPrice(
           total,
           currentCurrency,
         )}*%0A%0A*Meu Pedido:*${resumo}%0A%0AAguardo contato para finalizar o pagamento.`;
@@ -1387,97 +1424,127 @@
         updateCartBar();
       }
 
-      // --- VERIFICAÇÃO DE IDADE (BARRIL POP-UP) ---
+      // --- VERIFICAÇÃO DE IDADE (Proteção de vooIL POP-UP) ---
       function tentarEntrar() {
-        const modalIdade = document.getElementById('modal-idade');
-        modalIdade.classList.remove('hidden');
-        modalIdade.classList.add('flex');
+        const modalIdade = document.getElementById("modal-idade");
+        modalIdade.classList.remove("hidden");
+        modalIdade.classList.add("flex");
       }
 
       function confirmarIdade(isMaior) {
-        const modalIdade = document.getElementById('modal-idade');
-        const erroIdade = document.getElementById('erro-idade');
+        const modalIdade = document.getElementById("modal-idade");
+        const erroIdade = document.getElementById("erro-idade");
 
         if (isMaior) {
-          modalIdade.classList.add('hidden');
-          modalIdade.classList.remove('flex');
-          abrirExplicacao(); 
+          modalIdade.classList.add("hidden");
+          modalIdade.classList.remove("flex");
+          abrirExplicacao();
         } else {
-          erroIdade.classList.remove('hidden');
+          erroIdade.classList.remove("hidden");
         }
       }
-    </script> 
-
+    </script>
 
     <!-- POP-UP DE VERIFICAÇÃO DE IDADE (BARRIL) -->
     <div
       id="modal-idade"
       class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-300"
     >
-      <div class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center text-center px-6 overflow-hidden border-2 border-amber-900/30">
-        
-        <img 
-      src="image_8.png" 
-      alt="Barril de Madeira" 
-      class="absolute inset-0 w-full h-full object-cover scale-[1.08] translate-x-[-11px] translate-y-[-2px] z-0 pointer-events-none"
-    />
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7)_10%,rgba(0,0,0,0.3)_100%)] z-0 pointer-events-none"></div>
+      <div
+        class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center text-center px-6 overflow-hidden border-2 border-amber-900/30"
+      >
+        <img
+          src="image_8.png"
+          alt="Barril de Madeira"
+          class="absolute inset-0 w-full h-full object-cover scale-[1.08] translate-x-[-11px] translate-y-[-2px] z-0 pointer-events-none"
+        />
+        <div
+          class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7)_10%,rgba(0,0,0,0.3)_100%)] z-0 pointer-events-none"
+        ></div>
 
-        <div class="relative z-10 flex flex-col items-center justify-center max-w-[260px] md:max-w-[280px]">
-          <p class="text-[10px] md:text-xs font-bold text-dourado uppercase tracking-[0.2em] mb-1 drop-shadow-md">
+        <div
+          class="relative z-10 flex flex-col items-center justify-center max-w-[260px] md:max-w-[280px]"
+        >
+          <p
+            class="text-[10px] md:text-xs font-bold text-dourado uppercase tracking-[0.2em] mb-1 drop-shadow-md"
+          >
             3J's Wines
           </p>
-          <h2 class="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
-            Você tem mais<br>de 18 anos?
+          <h2
+            class="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight drop-shadow-lg"
+          >
+            Você tem mais<br />de 18 anos?
           </h2>
-          <p class="text-gray-100 text-[11px] md:text-xs font-medium mb-5 leading-relaxed drop-shadow-md">
-            Para acessar nosso serviço de concierge e adquirir bebidas alcoólicas, você precisa ser maior de idade.
+          <p
+            class="text-gray-100 text-[11px] md:text-xs font-medium mb-5 leading-relaxed drop-shadow-md"
+          >
+            Para acessar nosso serviço de concierge e adquirir bebidas
+            alcoólicas, você precisa ser maior de idade.
           </p>
-          
-      <div class="flex flex-col gap-2.5 w-[80%] mx-auto mt-2">
-        <button
-          onclick="confirmarIdade(true)"
-          class="w-full bg-bordo/95 border border-bordo text-white py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase hover:bg-red-900 transition-colors cursor-pointer shadow-lg"
-        >
-          Sim, sou maior
-        </button>
-        <button
-          onclick="confirmarIdade(false)"
-          class="w-full bg-transparent border border-white/60 text-white py-2 rounded-full text-[9px] font-bold tracking-widest uppercase hover:bg-white/20 transition-colors cursor-pointer"
-        >
-          Não, sou menor
-        </button>
-      </div>
-          
-          <p id="erro-idade" class="text-red-400 text-xs mt-3 hidden font-bold bg-black/80 px-3 py-1.5 rounded-sm shadow-md">
+
+          <div class="flex flex-col gap-2.5 w-[80%] mx-auto mt-2">
+            <button
+              onclick="confirmarIdade(true)"
+              class="w-full bg-bordo/95 border border-bordo text-white py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase hover:bg-red-900 transition-colors cursor-pointer shadow-lg"
+            >
+              Sim, sou maior
+            </button>
+            <button
+              onclick="confirmarIdade(false)"
+              class="w-full bg-transparent border border-white/60 text-white py-2 rounded-full text-[9px] font-bold tracking-widest uppercase hover:bg-white/20 transition-colors cursor-pointer"
+            >
+              Não, sou menor
+            </button>
+          </div>
+
+          <p
+            id="erro-idade"
+            class="text-red-400 text-xs mt-3 hidden font-bold bg-black/80 px-3 py-1.5 rounded-sm shadow-md"
+          >
             Acesso restrito a maiores de 18 anos.
           </p>
         </div>
       </div>
     </div>
-    
+
     <!-- BOTÃO WHATSAPP FLUTUANTE (SUPORTE OFICIAL) -->
-  <a
-    href="https://wa.me/5491132533990?text=Olá!%20Gostaria%20de%20tirar%20uma%20dúvida%20sobre%20o%20serviço%20de%20concierge."
-    target="_blank"
-    class="fixed bottom-14 right-4 md:bottom-16 md:right-6 z-[80] bg-[#25D366] text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(37,211,102,0.4)] hover:scale-110 hover:bg-[#20b858] transition-all duration-300"
-    aria-label="Fale conosco no WhatsApp"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-whatsapp md:w-7 md:h-7" viewBox="0 0 16 16">
-      <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-    </svg>
-    <span class="absolute top-0 right-0 flex h-3.5 w-3.5">
-      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-      <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border-2 border-white"></span>
-    </span>
-  </a>
+    <a
+      href="https://wa.me/5491132533990?text=Olá!%20Gostaria%20de%20tirar%20uma%20dúvida%20sobre%20o%20serviço%20de%20concierge."
+      target="_blank"
+      class="fixed bottom-14 right-4 md:bottom-16 md:right-6 z-[80] bg-[#25D366] text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(37,211,102,0.4)] hover:scale-110 hover:bg-[#20b858] transition-all duration-300"
+      aria-label="Fale conosco no WhatsApp"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="currentColor"
+        class="bi bi-whatsapp md:w-7 md:h-7"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+        />
+      </svg>
+      <span class="absolute top-0 right-0 flex h-3.5 w-3.5">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
+        ></span>
+        <span
+          class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border-2 border-white"
+        ></span>
+      </span>
+    </a>
 
-  <!-- COPYRIGHT GLOBAL -->
-  <div class="fixed bottom-0 left-0 w-full bg-marfim border-t border-gray-300 py-2.5 z-[90] shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
-    <p class="text-black text-[9px] md:text-[10px] font-bold tracking-widest text-center">
-      &copy; Copyright 2026 3J's Wines. Todos os direitos reservados.
-    </p>
-  </div>
-
-</body>
+    <!-- COPYRIGHT GLOBAL (ALTURA FIXA PARA ENCAIXE PERFEITO) -->
+    <div
+      class="fixed bottom-0 left-0 w-full bg-marfim border-t border-gray-300 h-10 flex items-center justify-center z-[90] shadow-[0_-4px_10px_rgba(0,0,0,0.03)]"
+    >
+      <p
+        class="text-black text-[9px] md:text-[10px] font-bold tracking-widest text-center m-0"
+      >
+        &copy; Copyright 2026 3J's Wines. Todos os direitos reservados.
+      </p>
+    </div>
+  </body>
 </html>
