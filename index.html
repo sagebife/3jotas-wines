@@ -213,15 +213,15 @@
             <div class="h-px bg-gray-300 flex-1"></div>
           </div>
 
-          <div class="relative max-w-md mx-auto">
-            <input
-              type="text"
-              id="input-pesquisa"
-              oninput="filtrarGradeBodegas(this.value)"
-              placeholder="Buscar bodega..."
-              class="w-full pl-4 pr-4 py-3 bg-white border border-gray-200 rounded-sm text-sm focus:outline-none focus:border-bordo focus:ring-1 focus:ring-bordo transition-colors text-escuro placeholder-gray-400 shadow-sm"
-            />
-          </div>
+          <div class="w-full mb-6">
+  <input
+    type="text"
+    id="inputBuscaGlobal"
+    oninput="buscarGlobal(this.value)"
+    placeholder="Buscar por vinho, uva ou bodega (ex: Malbec)..."
+    class="w-full border border-gray-300 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-bordo transition-colors shadow-sm bg-white"
+  />
+</div>
         </div>
       </div>
 
@@ -817,12 +817,110 @@
         document.getElementById("view-explicacao").classList.add("flex");
       }
 
-      function abrirMenuBodegas() {
+     function abrirMenuBodegas() {
         window.scrollTo(0, 0);
         esconderTudo();
         document.getElementById("view-menu-bodegas").classList.remove("hidden");
-        document.getElementById("input-pesquisa").value = "";
+        
+        // CORREÇÃO: Usando o novo ID com verificação de segurança
+        const inputBusca = document.getElementById('inputBuscaGlobal');
+        if (inputBusca) inputBusca.value = '';
+        
         renderGridBodegas();
+      }
+
+      // NOVA FUNÇÃO: BUSCA GLOBAL MÁGICA
+      function buscarGlobal(termo) {
+        // Remove acentos e formata para minúsculas
+        const termoFormatado = termo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        const container = document.getElementById("grid-bodegas");
+
+        // Se o input estiver vazio, volta a mostrar a grade de bodegas normal
+        if (termoFormatado === "") {
+            renderGridBodegas();
+            return;
+        }
+
+        // Filtra o catálogo inteiro por nome do vinho, uva ou nome da bodega
+        const vinhosFiltrados = catalogoVinhos.filter((v) => {
+            const nome = (v.nome || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const uva = (v.uva || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const bodega = (v.bodega || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            return nome.includes(termoFormatado) || uva.includes(termoFormatado) || bodega.includes(termoFormatado);
+        });
+
+        // Truque de Mestre: Usar as colunas da grade para expandir a lista de vinhos
+        let html = `<div class="col-span-2 md:col-span-4 w-full flex flex-col gap-0">`;
+        
+        if (vinhosFiltrados.length === 0) {
+            html += `<p class="text-center text-gray-500 text-sm mt-8 pb-10">Nenhum vinho encontrado para "${termo}".</p>`;
+        } else {
+            // Desenha os cartões dos vinhos encontrados
+            vinhosFiltrados.forEach((v) => {
+              let qty = cartState[v.id] || 0;
+              let subtituloBodega = `<p class="text-[10px] font-semibold text-dourado uppercase tracking-widest">${v.bodega}</p>`;
+
+              let nomeMaiusculo = v.nome.toUpperCase();
+              let textoHarmonizacao = "";
+
+              if (nomeMaiusculo.includes("MALBEC")) {
+                textoHarmonizacao = "🥩 Ideal para Parrilla e carnes vermelhas";
+              } else if (nomeMaiusculo.includes("CABERNET FRANC")) {
+                textoHarmonizacao = "🍷 Ótimo com carnes magras e risotos";
+              } else if (nomeMaiusculo.includes("CABERNET SAUVIGNON")) {
+                textoHarmonizacao = "🧀 Perfeito para carnes gordurosas e queijos fortes";
+              } else if (nomeMaiusculo.includes("MERLOT")) {
+                textoHarmonizacao = "🍝 Excelente com massas recheadas e aves brancas";
+              } else if (nomeMaiusculo.includes("SYRAH")) {
+                textoHarmonizacao = "🥓 Acompanha bem churrasco e embutidos";
+              } else if (nomeMaiusculo.includes("PINOT NOIR")) {
+                textoHarmonizacao = "🍣 Harmoniza com salmão e pratos com cogumelos";
+              } else if (nomeMaiusculo.includes("TORRONTÉS") || nomeMaiusculo.includes("TORRONTES")) {
+                textoHarmonizacao = "🥟 Ideal para empanadas picantes e comida asiática";
+              } else if (nomeMaiusculo.includes("CHARDONNAY")) {
+                textoHarmonizacao = "🍤 Ótimo com peixes encorpados e molhos brancos";
+              } else if (v.harmonizacao) {
+                textoHarmonizacao = v.harmonizacao;
+              }
+
+              let tagHarmonizacao = textoHarmonizacao
+                ? `<p class="text-[11px] italic text-gray-500 mt-1 font-light tracking-wide">${textoHarmonizacao}</p>`
+                : "";
+
+              let controleEstoque = v.ativo !== false
+                  ? `
+            <div class="flex items-center gap-3 md:gap-4">
+              <button onclick="updateQty('${v.id}', -1)" class="text-gray-400 hover:text-bordo font-light text-xl transition-colors cursor-pointer">−</button>
+              <span id="qty-${v.id}" class="text-sm md:text-base font-semibold w-4 text-center text-escuro">${qty}</span>
+              <button onclick="updateQty('${v.id}', 1)" class="text-gray-400 hover:text-bordo font-light text-xl transition-colors cursor-pointer">+</button>
+            </div>`
+                  : `<span class="text-xs font-semibold text-red-700 uppercase tracking-wider">Sin stock</span>`;
+
+              html += `
+          <div class="wine-card flex gap-4 md:gap-6 py-4 border-b border-gray-200/50 group bg-marfim">
+            <div onclick="abrirDetalheVinho('${v.id}')" class="w-16 md:w-20 h-28 md:h-32 bg-transparent flex-shrink-0 flex items-center justify-center mix-blend-multiply cursor-pointer" title="Ver em detalhe">
+              <img src="${v.img}" alt="${v.nome}" class="h-full object-cover rounded-sm shadow-sm transition-transform group-hover:scale-105" />
+            </div>
+            <div class="flex flex-col justify-between flex-1 py-1">
+              <div>
+                ${subtituloBodega}
+                <h3 onclick="abrirDetalheVinho('${v.id}')" class="font-serif text-lg md:text-xl font-bold text-escuro leading-tight mt-1 cursor-pointer hover:text-bordo transition-colors">${v.nome}</h3>
+                ${tagHarmonizacao}
+              </div>
+              <div class="flex justify-between items-end mt-4">
+                <p class="font-sans font-medium text-escuro text-base md:text-lg price-tag" data-brl="${v.brl.toFixed(2)}" data-ars="${v.ars.toFixed(2)}">
+                  ${formatPrice(v.brl, "BRL")}
+                </p>
+                ${controleEstoque}
+              </div>
+            </div>
+          </div>`;
+            });
+        }
+        
+        html += `</div>`;
+        container.innerHTML = html;
+        setCurrency(currentCurrency); // Atualiza os preços para a moeda selecionada
       }
 
       function abrirVinhosBodega(nomeBodega) {
@@ -872,27 +970,6 @@
         }
       }
 
-      function filtrarGradeBodegas(termo) {
-        termo = termo
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .trim();
-        const botoes = document.querySelectorAll(".btn-bodega");
-
-        botoes.forEach((btn) => {
-          const nome = btn
-            .getAttribute("data-nome")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-          if (nome.includes(termo)) {
-            btn.classList.remove("hidden");
-          } else {
-            btn.classList.add("hidden");
-          }
-        });
-      }
-
       function renderGridBodegas() {
         const container = document.getElementById("grid-bodegas");
         const bodegas = [
@@ -919,7 +996,7 @@
           html += `
             <button data-nome="${bod.toLowerCase()}" onclick="abrirVinhosBodega('${bod}')" class="btn-bodega bg-white border border-gray-200 rounded-sm aspect-square flex flex-col items-center justify-center p-3 hover:border-bordo transition-colors shadow-sm relative overflow-hidden group cursor-pointer">
                 <img src="logos/${nomeArquivo}.png" alt="${bod}" class="w-full h-full object-contain mix-blend-multiply" 
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
                 <span style="display:none;" class="font-serif text-[11px] md:text-sm font-bold text-escuro text-center group-hover:text-bordo transition-colors leading-tight">
                     ${bod}
                 </span>
@@ -1038,11 +1115,13 @@
         if (currency === "BRL") {
           btnBrl.className = activeClass;
           btnArs.className = inactiveClass;
-          document.getElementById("price-prot").innerText = "R$ 12,00";
+          const prot = document.getElementById("price-prot");
+          if(prot) prot.innerText = "R$ 12,00";
         } else {
           btnArs.className = activeClass;
           btnBrl.className = inactiveClass;
-          document.getElementById("price-prot").innerText = "AR$ 2.400,00";
+          const prot = document.getElementById("price-prot");
+          if(prot) prot.innerText = "AR$ 2.400,00";
         }
 
         document.querySelectorAll(".price-tag").forEach((tag) => {
@@ -1065,8 +1144,9 @@
         cartState[id] = newQty;
         totalGarrafas += diff;
 
-        const qtyElement = document.getElementById("qty-" + id);
-        if (qtyElement) qtyElement.innerText = newQty;
+        // Atualiza a quantidade na tela da loja e na busca global
+        const qtyElements = document.querySelectorAll("#qty-" + id);
+        qtyElements.forEach(el => el.innerText = newQty);
 
         updateCartBar();
       }
@@ -1143,7 +1223,8 @@
 
       function enviarWhatsApp() {
         const numeroTel = "5491132533990";
-        const hasProt = document.getElementById("prot-voo").checked;
+        const checkboxProt = document.getElementById("prot-voo");
+        const hasProt = checkboxProt ? checkboxProt.checked : false;
         const numCaixas = totalGarrafas / 6;
 
         let resumo = "";
@@ -1261,10 +1342,8 @@
       function mudarQtdDetalhe(change) {
         if (!vinhoAtualId) return;
 
-        // Usa a sua função global updateQty para atualizar a quantidade e o carrinho
         updateQty(vinhoAtualId, change);
 
-        // Atualiza o número exibido dentro do pop-up em tempo real
         let qtdAtual = cartState[vinhoAtualId] || 0;
         document.getElementById("detalhe-qty").innerText = qtdAtual;
       }
@@ -1277,6 +1356,7 @@
           modal.classList.add("hidden");
         }
       }
+
       function filtrarVinhosBodega() {
         const termo = document
           .getElementById("busca-vinhos")
@@ -1307,18 +1387,8 @@
         updateCartBar();
       }
 
-      function fecharDetalheVinho() {
-        vinhoAtualId = null;
-        const modal = document.getElementById("view-detalhe-vinho");
-        if (modal) {
-          modal.classList.remove("flex");
-          modal.classList.add("hidden");
-        }
-      }
-
       // --- VERIFICAÇÃO DE IDADE (BARRIL POP-UP) ---
       function tentarEntrar() {
-        // Abre o pop-up diretamente
         const modalIdade = document.getElementById('modal-idade');
         modalIdade.classList.remove('hidden');
         modalIdade.classList.add('flex');
@@ -1329,39 +1399,30 @@
         const erroIdade = document.getElementById('erro-idade');
 
         if (isMaior) {
-          // Fecha o pop-up e avança para a Tela 2
           modalIdade.classList.add('hidden');
           modalIdade.classList.remove('flex');
-          
           abrirExplicacao(); 
         } else {
-          // Mostra mensagem de erro se for menor
           erroIdade.classList.remove('hidden');
         }
       }
+    </script> 
 
-    </script> <!-- AQUI FECHA O JAVASCRIPT CORRETAMENTE -->
 
-
-    <!-- POP-UP DE VERIFICAÇÃO DE IDADE (BARRIL RÚSTICO - VISUAL MELHORADO) -->
+    <!-- POP-UP DE VERIFICAÇÃO DE IDADE (BARRIL) -->
     <div
       id="modal-idade"
       class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-300"
     >
-      <!-- O Pop-up circular -->
       <div class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center text-center px-6 overflow-hidden border-2 border-amber-900/30">
         
-        <!-- Imagem de fundo do Barril -->
         <img 
       src="image_8.png" 
       alt="Barril de Madeira" 
       class="absolute inset-0 w-full h-full object-cover scale-[1.08] translate-x-[-11px] translate-y-[-2px] z-0 pointer-events-none"
     />
-
-        <!-- NOVA PELÍCULA DE ESCURECIMENTO (OVERLAY) PARA DAR LEITURA -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7)_10%,rgba(0,0,0,0.3)_100%)] z-0 pointer-events-none"></div>
 
-        <!-- Conteúdo sobreposto -->
         <div class="relative z-10 flex flex-col items-center justify-center max-w-[260px] md:max-w-[280px]">
           <p class="text-[10px] md:text-xs font-bold text-dourado uppercase tracking-[0.2em] mb-1 drop-shadow-md">
             3J's Wines
@@ -1373,7 +1434,6 @@
             Para acessar nosso serviço de concierge e adquirir bebidas alcoólicas, você precisa ser maior de idade.
           </p>
           
-          <!-- Botões pílula ajustados para caber no centro do barril -->
       <div class="flex flex-col gap-2.5 w-[80%] mx-auto mt-2">
         <button
           onclick="confirmarIdade(true)"
@@ -1389,13 +1449,13 @@
         </button>
       </div>
           
-          <!-- Mensagem de Erro -->
           <p id="erro-idade" class="text-red-400 text-xs mt-3 hidden font-bold bg-black/80 px-3 py-1.5 rounded-sm shadow-md">
             Acesso restrito a maiores de 18 anos.
           </p>
         </div>
       </div>
     </div>
+    
     <!-- BOTÃO WHATSAPP FLUTUANTE (SUPORTE OFICIAL) -->
   <a
     href="https://wa.me/5491132533990?text=Olá!%20Gostaria%20de%20tirar%20uma%20dúvida%20sobre%20o%20serviço%20de%20concierge."
@@ -1403,18 +1463,16 @@
     class="fixed bottom-14 right-4 md:bottom-16 md:right-6 z-[80] bg-[#25D366] text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(37,211,102,0.4)] hover:scale-110 hover:bg-[#20b858] transition-all duration-300"
     aria-label="Fale conosco no WhatsApp"
   >
-    <!-- Ícone SVG Oficial do WhatsApp -->
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-whatsapp md:w-7 md:h-7" viewBox="0 0 16 16">
       <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
     </svg>
-    
-    <!-- Ponto vermelho de Notificação -->
     <span class="absolute top-0 right-0 flex h-3.5 w-3.5">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
       <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border-2 border-white"></span>
     </span>
   </a>
-    <!-- COPYRIGHT GLOBAL (CAIXA SÓLIDA NO RODAPÉ - SEMPRE NO TOPO DAS CAMADAS) -->
+
+  <!-- COPYRIGHT GLOBAL -->
   <div class="fixed bottom-0 left-0 w-full bg-marfim border-t border-gray-300 py-2.5 z-[90] shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
     <p class="text-black text-[9px] md:text-[10px] font-bold tracking-widest text-center">
       &copy; Copyright 2026 3J's Wines. Todos os direitos reservados.
@@ -1422,6 +1480,4 @@
   </div>
 
 </body>
-</html>
-  </body>
 </html>
