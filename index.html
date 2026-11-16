@@ -1307,7 +1307,7 @@
         
         // No telemóvel, o encodeURIComponent transforma os emojis em símbolos web seguros que a app do WhatsApp traduz perfeitamente
         const url = `https://api.whatsapp.com/send?phone=${numeroTel}&text=${encodeURIComponent(msg)}`;
-        window.open(url, "_blank");
+        window.location.href = url;
       }
       function abrirGuiaHarmonizacao() {
         window.scrollTo(0, 0);
