@@ -1296,18 +1296,28 @@
 
         let txtProtecao = "";
         if (hasProt && totalGarrafas >= 6) {
-          // \uD83D\uDEE1\uFE0F é o código Unicode para o Escudo 🛡️
-          txtProtecao = `\n\uD83D\uDEE1\uFE0F Incluir Proteção de Voo (${numCaixas} caixa(s))`;
+          txtProtecao = `\n[ESCUDO] Incluir Proteção de Voo (${numCaixas} caixa(s))`;
           total += numCaixas * (currentCurrency === "BRL" ? 12 : 2400);
         }
 
-        // Os emojis estão convertidos em códigos (ex: \uD83C\uDF77 = Taça de Vinho 🍷)
-        const msg = `\uD83C\uDF77 Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n\uD83D\uDCE6 Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n\uD83D\uDCB5 Moeda: ${currentCurrency}${txtProtecao}\n\uD83D\uDCB0 *Total Estimado: ${formatPrice(
+        // Criamos a mensagem usando apenas TEXTO PURO (sem emojis reais para não quebrar)
+        let msg = `[VINHO] Olá, 3J's Wines!\n\nGostaria de solicitar minha seleção:\n[CAIXA] Volume: ${totalGarrafas} garrafas (${numCaixas} caixa(s))\n[MOEDA] Moeda: ${currentCurrency}${txtProtecao}\n[SACO] *Total Estimado: ${formatPrice(
           total,
           currentCurrency,
         )}*\n\n*Meu Pedido:*${resumo}\n\nAguardo contato para finalizar o pagamento.`;
         
-        const url = `https://wa.me/${numeroTel}?text=${encodeURIComponent(msg)}`;
+        // 1. O JavaScript traduz o texto todo de forma segura
+        let urlEncodedMsg = encodeURIComponent(msg);
+
+        // 2. Trocamos os marcadores de texto pelos Emojis diretamente no formato URL
+        urlEncodedMsg = urlEncodedMsg.replace('%5BVINHO%5D', '%F0%9F%8D%B7'); // 🍷
+        urlEncodedMsg = urlEncodedMsg.replace('%5BCAIXA%5D', '%F0%9F%93%A6'); // 📦
+        urlEncodedMsg = urlEncodedMsg.replace('%5BMOEDA%5D', '%F0%9F%92%B5'); // 💵
+        urlEncodedMsg = urlEncodedMsg.replace('%5BSACO%5D', '%F0%9F%92%B0');  // 💰
+        urlEncodedMsg = urlEncodedMsg.replace('%5BESCUDO%5D', '%F0%9F%9B%A1%EF%B8%8F'); // 🛡️
+
+        // 3. Enviamos o link blindado
+        const url = `https://wa.me/${numeroTel}?text=${urlEncodedMsg}`;
         window.open(url, "_blank");
       }
       function abrirGuiaHarmonizacao() {
